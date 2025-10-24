@@ -9,6 +9,7 @@ function getWord() {
 }
 
 function App() {
+  // const [isGameOver, setIsGameOver] = useState(false);
   const [wordToGuess, setWordToGuess] = useState(getWord)
   const [guessedLetters, setGuessedLetters] = useState<string[]>([])
 
@@ -63,6 +64,17 @@ function App() {
     }
   }, [])
 
+  // useEffect(() => {
+  //   if( isWinner || isLoser){
+  //     setIsGameOver(true);
+  //   }
+  // }, [isLoser, isWinner])
+
+  const resetGame = () => {
+  setGuessedLetters([])
+  setWordToGuess(getWord())
+}
+
   console.log(wordToGuess);
   
   return (
@@ -76,10 +88,10 @@ function App() {
         alignItems: "center",
       }}
     >
-      <div style={{ fontSize: "2rem", textAlign: "center" }}>
+      {/* <div style={{ fontSize: "2rem", textAlign: "center" }}>
         {isWinner && "Winner! - Refresh to play again"}
         {isLoser && "Nice Try - Refresh to try again"}
-      </div>
+      </div> */}
       <HangmanDrawing numberOfGuesses={incorrectLetters.length} />
       <HangmanWord
         reveal={isLoser}
@@ -89,6 +101,7 @@ function App() {
       <div style={{ alignSelf: "stretch" }}>
         <Keyboard
           disabled={isWinner || isLoser}
+
           activeLetters={guessedLetters.filter(letter =>
             wordToGuess.includes(letter)
           )}
@@ -96,6 +109,32 @@ function App() {
           addGuessedLetter={addGuessedLetter}
         />
       </div>
+
+
+      {/* {isGameOver && (
+        <button onClick={resetGame}>Play Again</button>
+      )} */}
+
+      <div style={{ fontSize: "4rem", textAlign: "center", color: isWinner? "green" : "red" }}>
+        {isWinner && "🎉Winner!👏 🏆"}
+        {isLoser && "Nice Try 👍💪"}
+      </div>
+      {(isLoser || isWinner) && (
+        <button onClick={resetGame} 
+        style={{
+          backgroundColor: "blue",
+          color: "white",
+          fontSize: "2rem",
+          textAlign: "center",
+          padding: "1rem",
+          fontFamily: "monospace",
+          fontWeight: "bold",
+          border: "3px solid gray",
+          borderRadius: "10px",
+          cursor: "pointer"
+        }}
+        >Play Again</button>
+      )}
     </div>
   )
 }
