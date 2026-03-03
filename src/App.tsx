@@ -2,15 +2,15 @@ import { useCallback, useEffect, useState } from "react"
 import HangmanDrawing from "./HangmanDrawing"
 import HangmanWord from "./HangmanWord"
 import Keyboard from "./Keyboard"
-import words from "./wordList.json"
 import Navbar from "./Navbar"
+import words from "./wordList.json"
+import "./App.css"
 
 function getWord() {
   return words[Math.floor(Math.random() * words.length)]
 }
 
 function App() {
-  // const [isGameOver, setIsGameOver] = useState(false);
   const [wordToGuess, setWordToGuess] = useState(getWord)
   const [guessedLetters, setGuessedLetters] = useState<string[]>([])
 
@@ -26,85 +26,44 @@ function App() {
   const addGuessedLetter = useCallback(
     (letter: string) => {
       if (guessedLetters.includes(letter) || isLoser || isWinner) return
-
-      setGuessedLetters(currentLetters => [...currentLetters, letter])
+      setGuessedLetters(current => [...current, letter])
     },
     [guessedLetters, isWinner, isLoser]
   )
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      const key = e.key
+      const key = e.key.toLowerCase()
       if (!key.match(/^[a-z]$/)) return
-
       e.preventDefault()
       addGuessedLetter(key)
     }
 
-    document.addEventListener("keypress", handler)
-
-    return () => {
-      document.removeEventListener("keypress", handler)
-    }
+    document.addEventListener("keydown", handler) // 🔥 better than keypress
+    return () => document.removeEventListener("keydown", handler)
   }, [addGuessedLetter])
 
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      const key = e.key
-      if (key !== "Enter") return
-
-      e.preventDefault()
-      setGuessedLetters([])
-      setWordToGuess(getWord())
-    }
-
-    document.addEventListener("keypress", handler)
-
-    return () => {
-      document.removeEventListener("keypress", handler)
-    }
-  }, [])
-
-  // useEffect(() => {
-  //   if( isWinner || isLoser){
-  //     setIsGameOver(true);
-  //   }
-  // }, [isLoser, isWinner])
-
   const resetGame = () => {
-  setGuessedLetters([])
-  setWordToGuess(getWord())
-}
+    setGuessedLetters([])
+    setWordToGuess(getWord())
+  }
 
-  console.log(wordToGuess);
-  
   return (
     <>
       <Navbar />
-      <div
-        style={{
-          maxWidth: "800px",
-          display: "flex",
-          flexDirection: "column",
-          gap: "2rem",
-          margin: "0 auto",
-          alignItems: "center",
-        }}
-      >
-        {/* <div style={{ fontSize: "2rem", textAlign: "center" }}>
-          {isWinner && "Winner! - Refresh to play again"}
-          {isLoser && "Nice Try - Refresh to try again"}
-        </div> */}
+
+      <div className="app-container">
         <HangmanDrawing numberOfGuesses={incorrectLetters.length} />
+
         <HangmanWord
           reveal={isLoser}
           guessedLetters={guessedLetters}
           wordToGuess={wordToGuess}
         />
-        <div style={{ alignSelf: "stretch" }}>
+
+        <div className="keyboard-wrapper">
           <Keyboard
             disabled={isWinner || isLoser}
-
             activeLetters={guessedLetters.filter(letter =>
               wordToGuess.includes(letter)
             )}
@@ -113,30 +72,19 @@ function App() {
           />
         </div>
 
-
-        {/* {isGameOver && (
-          <button onClick={resetGame}>Play Again</button>
-        )} */}
-
-        <div style={{ fontSize: "4rem", textAlign: "center", color: isWinner? "green" : "red" }}>
-          {isWinner && "🎉Winner!👏 🏆"}
-          {isLoser && "Nice Try 👍💪"}
+        <div
+          className={`result-text ${
+            isWinner ? "winner" : isLoser ? "loser" : ""
+          }`}
+        >
+          {isWinner && "🎉 Winner! 🏆"}
+          {isLoser && "Nice Try 👍"}
         </div>
+
         {(isLoser || isWinner) && (
-          <button onClick={resetGame} 
-          style={{
-            backgroundColor: "blue",
-            color: "white",
-            fontSize: "2rem",
-            textAlign: "center",
-            padding: "1rem",
-            fontFamily: "monospace",
-            fontWeight: "bold",
-            border: "3px solid gray",
-            borderRadius: "10px",
-            cursor: "pointer"
-          }}
-          >Play Again</button>
+          <button onClick={resetGame} className="play-button">
+            Play Again
+          </button>
         )}
       </div>
     </>

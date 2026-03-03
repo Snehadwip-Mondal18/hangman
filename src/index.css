@@ -1,1 +1,18 @@
 @import "tailwindcss";
+/* index.css */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, sans-serif;
+  background: #f8f9fa;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}

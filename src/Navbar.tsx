@@ -1,22 +1,14 @@
-import logo from './assets/logo.png'
+import logo from "./assets/logo.png"
+import styles from "./Navbar.module.css"
 
 const Navbar = () => {
   return (
-    <>
-        <div style={{
-            width: "full",
-            backgroundColor: "rgba(1, 0, 0, 0.2)",
-            padding: "1rem 0 1rem 2rem",
-            marginBottom: "1rem"
-        }}>
-            <img src={logo} alt="logo" 
-            style={{
-                width: "full",
-                height: "5rem",
-                borderRadius: "50%"
-            }} />
-        </div>
-    </>
+    <nav className={styles.navbar}>
+      <div className={styles.leftSection}>
+        <img src={logo} alt="Game Logo" className={styles.logo} />
+        <h1 className={styles.title}>Hangman Game</h1>
+      </div>
+    </nav>
   )
 }
 

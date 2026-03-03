@@ -1,0 +1,37 @@
+.navbar {
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.15);
+  padding: 1rem 2rem;
+  margin-bottom: 1rem;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.leftSection {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logo {
+  height: 4rem;
+  width: 4rem;
+  border-radius: 50%;
+  object-fit: cover;
+  transition: transform 0.2s ease;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+}
+
+.title {
+  font-size: clamp(1.2rem, 3vw, 1.8rem);
+  font-weight: bold;
+  color: #222;
+  margin: 0;
+}

@@ -1,25 +1,42 @@
-.btn{
-    width: 100%;
-    border: 3px solid black;
-    background: none;
-    aspect-ratio: 1/1;
-    font-size: 2.5rem;
-    text-transform: uppercase;
-    padding: .5rem;
-    font-weight: bold;
-    cursor: pointer;
-    color: black;
+.keyboard {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);   /* 7 columns */
+  gap: 0.75rem;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
-.btn.active{
-    background-color: hsl(200, 100%, 50%);
-    color: white;
+/* BUTTON BASE STYLE */
+.btn {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border: 3px solid black;
+  background: none;
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  text-transform: uppercase;
+  font-weight: bold;
+  cursor: pointer;
+  color: black;
+  border-radius: 8px;
+  transition: all 0.2s ease;
 }
 
-.btn.inactive{
-    opacity: .3;
+/* ACTIVE (Correct Guess) */
+.active {
+  background-color: hsl(200, 100%, 50%);
+  color: white;
+  border-color: hsl(200, 100%, 50%);
 }
 
-.btn:hover:not(:disabled), .btn:focus:not(:disabled){
-    background-color: hsl(200, 100%, 75%);
+/* INACTIVE (Wrong Guess) */
+.inactive {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* HOVER */
+.btn:hover:not(:disabled),
+.btn:focus:not(:disabled) {
+  background-color: hsl(200, 100%, 75%);
+  transform: scale(1.05);
 }

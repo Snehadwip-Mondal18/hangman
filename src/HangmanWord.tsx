@@ -1,3 +1,5 @@
+import "./App.css"
+
 type HangmanWordProps = {
   guessedLetters: string[]
   wordToGuess: string
@@ -10,32 +12,25 @@ const HangmanWord = ({
   reveal = false,
 }: HangmanWordProps) => {
   return (
-    <div
-      style={{
-        display: "flex",
-        gap: ".25em",
-        fontSize: "6rem",
-        fontWeight: "bold",
-        textTransform: "uppercase",
-        fontFamily: "monospace",
-      }}
-    >
-      {wordToGuess.split("").map((letter, index) => (
-        <span style={{ borderBottom: ".1em solid black" }} key={index}>
-          <span
-            style={{
-              visibility:
-                guessedLetters.includes(letter) || reveal
-                  ? "visible"
-                  : "hidden",
-              color:
-                !guessedLetters.includes(letter) && reveal ? "red" : "black",
-            }}
-          >
-            {letter}
+    <div className="word-container">
+      {wordToGuess.split("").map((letter, index) => {
+        const isGuessed = guessedLetters.includes(letter)
+
+        return (
+          <span className="letter-box" key={index}>
+            <span
+              className={`letter ${
+                !isGuessed && reveal ? "reveal-letter" : ""
+              }`}
+              style={{
+                visibility: isGuessed || reveal ? "visible" : "hidden",
+              }}
+            >
+              {letter}
+            </span>
           </span>
-        </span>
-      ))}
+        )
+      })}
     </div>
   )
 }
